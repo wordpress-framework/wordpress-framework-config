@@ -1,0 +1,28 @@
+{
+    "name": "wordpress-framework/wordpress-framework-config",
+    "description": "Provides a nested object property based user interface for accessing this configuration data within application code",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "wordpress-framework",
+        "config"
+    ],
+    "homepage": "https://github.com/wordpress-framework/wordpress-framework-config",
+    "authors": [
+        {
+            "name": "Przemysław Dziadek",
+            "email": "przemyslaw.dziadek@gmail.com",
+            "homepage": "http://www.wizzaro.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "WordpressFramework\\Config\\v1\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^5.5 || ^7.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
