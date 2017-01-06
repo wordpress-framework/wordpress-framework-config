@@ -17,9 +17,14 @@
     ],
     "autoload": {
         "psr-4": {
-            "WordpressFramework\\Config\\v1\\": "src/"
+            "Wordpress_Framework\\Config\\v1\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Wordpress_Framework\\Config\\v1\\Tests\\": "tests/"
+        }
+    }
     "require": {
         "php": "^5.5 || ^7.0"
     },
