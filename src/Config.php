@@ -13,27 +13,27 @@ class Config implements Config_Interface {
     protected $permissions;
 
     /**
-     * Container for configuration data 
+     * Container for configuration data
      *
      * @var array
      */
     protected $configuration_data = [];
-    
+
     /**
-     * Flag for ensure we do not skip the next element when unsetting values during iteration  
+     * Flag for ensure we do not skip the next element when unsetting values during iteration
      * (used by in functions defined by Iterator Interface)
-     * 
+     *
      * @var bool
      */
     protected $skip_next_iteration;
-    
+
     /**
      * Constructor
      *
      * @param array $configuration_data
      * @param string $permissions read_and_write || read_only
      */
-    public function __construct( array $configuration_data, string $permissions = 'read_only' ) {
+    public function __construct( array $configuration_data = [], string $permissions = 'read_only' ) {
         $this->permissions = $permissions;
 
         foreach ( $configuration_data as $conf_key => $conf_value ) {
@@ -44,9 +44,9 @@ class Config implements Config_Interface {
             }
         }
     }
-    
+
     /**
-     * Return a value or return $default if element not exist in configuration data 
+     * Return a value or return $default if element not exist in configuration data
      *
      * @param  string $name
      * @param  mixed  $default
@@ -69,7 +69,29 @@ class Config implements Config_Interface {
     public function __get( string $name ) {
         return $this->get( $name );
     }
-    
+
+    /**
+     * Set a value to the config
+     *
+     * Only when permissions property was set to read_and_write on construction. Otherwise, throw an exception
+     *
+     * @param  string $name
+     * @param  mixed  $value
+     * @return void
+     * @throws RuntimeException
+     */
+    public function set( string $name, $value ) {
+        if ( ! $this->is_read_only() ) {
+            if ( is_array( $value ) ) {
+                $value = new static( $value, true );
+            }
+
+            $this->configuration_data[$name] = $value;
+        } else {
+            throw new RuntimeException( 'This Config is read only' );
+        }
+    }
+
     /**
      * Set a value to the config. Magic function so that $obj->value = value will work
      *
@@ -81,17 +103,9 @@ class Config implements Config_Interface {
      * @throws RuntimeException
      */
     public function __set( string $name, $value ) {
-        if ( ! $this->is_read_only() ) {
-            if ( is_array( $value ) ) {
-                $value = new static( $value, true );
-            }
-            
-            $this->configuration_data[$name] = $value;
-        } else {
-            throw new RuntimeException( 'This Config is read only' );
-        }
+        $this->set( $name, $value );
     }
-    
+
     /**
      * Magic function so that isset( $obj->value ) will work
      *
@@ -101,7 +115,7 @@ class Config implements Config_Interface {
     public function __isset( string $name ): bool {
         return isset( $this->configuration_data[$name] );
     }
-    
+
     /**
      * unset() overloading
      *
@@ -117,7 +131,7 @@ class Config implements Config_Interface {
             $this->skip_next_iteration = true;
         }
     }
-    
+
     /**
      * Function defined by Countable interface
      *
@@ -127,7 +141,7 @@ class Config implements Config_Interface {
     public function count(): int {
         return count( $this->configuration_data );
     }
-    
+
     /**
      * Function defined by Iterator interface
      *
@@ -185,16 +199,16 @@ class Config implements Config_Interface {
     public function valid(): bool {
         return ( $this->key() !== null );
     }
-    
+
     /**
      * Return information whether modifications to data are allowed
-     * 
-     * @return boolean 
+     *
+     * @return boolean
      */
     public function is_read_only(): bool {
         return $this->permissions === 'read_and_write' ? false : true;
     }
-    
+
     /**
      * Change permissions for this instance to read_only
      *
@@ -209,7 +223,7 @@ class Config implements Config_Interface {
             }
         }
     }
-    
+
     /**
      * Magic function. Deep clone of this instance to ensure that nested Configs are also cloned
      *
@@ -228,7 +242,7 @@ class Config implements Config_Interface {
 
         $this->configuration_data = $clone_configuration_data;
     }
-    
+
     /**
      * Returns an array of associative copy of the stored data
      *
@@ -247,7 +261,7 @@ class Config implements Config_Interface {
 
         return $configuration_data_array;
     }
-    
+
     /**
      * Merge configuration data from another Config object to this one
      *
