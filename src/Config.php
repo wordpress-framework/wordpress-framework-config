@@ -28,8 +28,9 @@ class Config implements Config_Interface {
     protected $skip_next_iteration;
 
     /**
-     * Constructor
+     * Function defined by Config_Interface interface
      *
+     * @see   \Wordpress_Framework\Config\v1\Config_Interface::__construct()
      * @param array $configuration_data
      * @param string $permissions read_and_write || read_only
      */
@@ -46,8 +47,9 @@ class Config implements Config_Interface {
     }
 
     /**
-     * Return a value or return $default if element not exist in configuration data
+     * Function defined by Config_Interface interface
      *
+     * @see    \Wordpress_Framework\Config\v1\Config_Interface::get()
      * @param  string $name
      * @param  mixed  $default
      * @return mixed
@@ -61,8 +63,9 @@ class Config implements Config_Interface {
     }
 
     /**
-     * Magic function so that $obj->value will work
+     * Function defined by Config_Interface interface
      *
+     * @see    \Wordpress_Framework\Config\v1\Config_Interface::__get()
      * @param  string $name
      * @return mixed
      */
@@ -71,10 +74,9 @@ class Config implements Config_Interface {
     }
 
     /**
-     * Set a value to the config
+     * Function defined by Config_Interface interface
      *
-     * Only when permissions property was set to read_and_write on construction. Otherwise, throw an exception
-     *
+     * @see    \Wordpress_Framework\Config\v1\Config_Interface::set()
      * @param  string $name
      * @param  mixed  $value
      * @return void
@@ -93,10 +95,9 @@ class Config implements Config_Interface {
     }
 
     /**
-     * Set a value to the config. Magic function so that $obj->value = value will work
+     * Function defined by Config_Interface interface
      *
-     * Only when permissions property was set to read_and_write on construction. Otherwise, throw an exception
-     *
+     * @see    \Wordpress_Framework\Config\v1\Config_Interface::__set()
      * @param  string $name
      * @param  mixed  $value
      * @return void
@@ -107,8 +108,9 @@ class Config implements Config_Interface {
     }
 
     /**
-     * Magic function so that isset( $obj->value ) will work
+     * Function defined by Config_Interface interface
      *
+     * @see    \Wordpress_Framework\Config\v1\Config_Interface::__isset()
      * @param  string $name
      * @return bool
      */
@@ -117,8 +119,9 @@ class Config implements Config_Interface {
     }
 
     /**
-     * unset() overloading
+     * Function defined by Config_Interface interface
      *
+     * @see    \Wordpress_Framework\Config\v1\Config_Interface::__unset()
      * @param  string $name
      * @return void
      * @throws InvalidArgumentException
@@ -201,8 +204,9 @@ class Config implements Config_Interface {
     }
 
     /**
-     * Return information whether modifications to data are allowed
+     * Function defined by Config_Interface interface
      *
+     * @see    \Wordpress_Framework\Config\v1\Config_Interface::is_read_only()
      * @return boolean
      */
     public function is_read_only(): bool {
@@ -210,8 +214,9 @@ class Config implements Config_Interface {
     }
 
     /**
-     * Change permissions for this instance to read_only
+     * Function defined by Config_Interface interface
      *
+     * @see    \Wordpress_Framework\Config\v1\Config_Interface::set_permissions_to_read_only()
      * @return void
      */
     public function set_permissions_to_read_only() {
@@ -225,8 +230,9 @@ class Config implements Config_Interface {
     }
 
     /**
-     * Magic function. Deep clone of this instance to ensure that nested Configs are also cloned
+     * Function defined by Config_Interface interface
      *
+     * @see    \Wordpress_Framework\Config\v1\Config_Interface::__clone()
      * @return void
      */
     public function __clone() {
@@ -244,8 +250,9 @@ class Config implements Config_Interface {
     }
 
     /**
-     * Returns an array of associative copy of the stored data
+     * Function defined by Config_Interface interface
      *
+     * @see    \Wordpress_Framework\Config\v1\Config_Interface::to_array()
      * @return array
      */
     public function to_array(): array {
@@ -263,13 +270,9 @@ class Config implements Config_Interface {
     }
 
     /**
-     * Merge configuration data from another Config object to this one
+     * Function defined by Config_Interface interface
      *
-     * For duplicate keys:
-     * - Nested Configs will be recursively merged
-     * - Items in $merge with INTEGER keys will be appended
-     * - Items in $merge with STRING keys will overwrite current values
-     *
+     * @see    \Wordpress_Framework\Config\v1\Config_Interface::merge()
      * @param  Config $merge_config_object
      * @return Config
      */

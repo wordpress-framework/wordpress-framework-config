@@ -6,10 +6,7 @@ use  Wordpress_Framework\Config\v1\Config;
 
 class Php implements Reader_Interface {
     /**
-     * Read from a file and create an Config object that implements Config_Interface
-     *
-     * @param  string $filename
-     * @return Wordpress_Framework\Config\v1\Config_Interface object that implements Config_Interface
+     * @inheritDoc
      */
     public static function read_from_file(string $filename, bool $allowModifications = false): Config_Interface {
         if (!is_file($filename) || !is_readable($filename)) {
@@ -18,7 +15,7 @@ class Php implements Reader_Interface {
                 $filename
             ));
         }
-        
+
         return new Config(include $filename, $allowModifications);
     }
 }
